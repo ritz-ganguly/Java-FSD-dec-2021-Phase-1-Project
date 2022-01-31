@@ -3,6 +3,7 @@ package lockedme;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -39,7 +40,21 @@ public class LockedMe {
 				filename.add(f.getName());
 
 		}
-		Collections.sort(filename);
+		
+		
+		Collections.sort(filename, new Comparator<String>() {
+		    public int compare(String o1, String o2) {
+		        return extractInt(o1) - extractInt(o2);
+		    }
+
+		    int extractInt(String s) {
+		        String num = s.replaceAll("\\D", "");
+		        // return 0 if no digits found
+		        return num.isEmpty() ? 0 : Integer.parseInt(num);
+		    }
+		});
+		
+		
 		if (filename.size() == 0)
 			System.out.println("No files present in the directory ");
 
@@ -201,7 +216,7 @@ public class LockedMe {
  
 public static void main(String[] args) {
 		
-		int ch;
+		String ch;
 		Scanner obj2 = new Scanner(System.in);
 		try {
 		
@@ -209,23 +224,23 @@ public static void main(String[] args) {
 			displayMenu();
 			System.out.println("Enter your choice ");
 			
-		    ch =Integer.parseInt(obj2.next());
+		    ch = obj2.nextLine().trim();
 			
 		    switch(ch) {
 		    
-		    case 1: getAllFiles();
+		    case "1": getAllFiles();
 		            break;
 		           
-		    case 2: createFiles();
+		    case "2": createFiles();
 		            break;
 		         
-		    case 3: deleteFiles();
+		    case "3": deleteFiles();
 		            break;
 		            
-		    case 4: searchFiles();
+		    case "4": searchFiles();
 		            break;
 		     
-		    case 5: System.exit(0);
+		    case "5": System.exit(0);
 		            break;
 		            
 		    default: System.out.println("Invalid option ");
@@ -233,13 +248,10 @@ public static void main(String[] args) {
 		    
 		    }
 			
-		}while(ch>=0);
+		}while(ch!="asdfghjklzxcvbnmqwertytuio");
 
 		}
-		catch(NumberFormatException e) {
-	    	 System.out.println("Enter a valid number ");
-	    	 
-	     }
+		
 	     
 	     catch(NullPointerException e) {
 	    	 System.out.println("Enter a valid number ");
